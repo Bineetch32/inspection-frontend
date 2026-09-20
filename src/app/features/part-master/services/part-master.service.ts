@@ -36,10 +36,10 @@ export class PartMasterService {
   }
 
   updatePart(id: number, part: PartMaster): Observable<PartMaster> {
-    return this.http.put<PartMaster>(`${this.apiUrl}/${id}`, part);
+    return this.http.put<PartMaster>(`${this.apiUrl}/parts/${id}`, part);
   }
 
   deletePart(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+    return this.http.delete<void>(`${this.apiUrl}/parts/${id}`);
   }
 }
