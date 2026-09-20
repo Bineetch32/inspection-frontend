@@ -31,6 +31,10 @@ export class UploadComponent {
     this.errorMessage = '';
     this.successMessage = '';
     this.report = null;
+
+    if (this.selectedFile) {
+      this.inspectionService.setSelectedFile(this.selectedFile);
+    }
   }
 
   calculateReport(): void {
@@ -73,5 +77,11 @@ export class UploadComponent {
 
   openDashboard(): void {
     this.router.navigate(['/dashboard']);
+  }
+
+  openReport(): void {
+    if (this.report?.reportGenerationAllowed) {
+      this.router.navigate(['/report']);
+    }
   }
 }
