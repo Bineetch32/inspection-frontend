@@ -8,8 +8,17 @@ import { Observable } from 'rxjs';
 export class InspectionService {
 
   private readonly apiUrl = 'http://localhost:8080/api';
+  private selectedFile: File | null = null;
 
   constructor(private http: HttpClient) {}
+
+  setSelectedFile(file: File): void {
+    this.selectedFile = file;
+  }
+
+  getSelectedFile(): File | null {
+    return this.selectedFile;
+  }
 
   calculateReport(file: File): Observable<any> {
     const formData = new FormData();
