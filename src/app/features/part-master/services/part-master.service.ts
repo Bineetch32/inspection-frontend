@@ -42,4 +42,21 @@ export class PartMasterService {
   deletePart(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/parts/${id}`);
   }
+
+  importExcel(file: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    return this.http.post<any>(
+      `${this.apiUrl}/parts/import-excel`,
+      formData
+    );
+  }
+
+  downloadTemplate(): Observable<Blob> {
+    return this.http.get(
+      `${this.apiUrl}/parts/template`,
+      { responseType: 'blob' }
+    );
+  }
 }
