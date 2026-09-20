@@ -1,1 +1,240 @@
-<p>report-view works!</p>
+<div class="report-page">
+
+  <header class="topbar">
+    <div>
+      <span class="eyebrow">INSPECTION REPORT</span>
+      <h1>Report Preview</h1>
+      <p>Review the calculated inspection results before downloading the PDF.</p>
+    </div>
+
+    <div class="top-actions">
+      <button class="secondary-btn" (click)="backToDashboard()">Dashboard</button>
+      <button class="secondary-btn" (click)="backToUpload()">New Inspection</button>
+      <button class="primary-btn" [disabled]="loadingPdf" (click)="downloadPdf()">
+        {{ loadingPdf ? 'Generating PDF...' : 'Download PDF' }}
+      </button>
+    </div>
+  </header>
+
+  <main *ngIf="report">
+
+    <section class="hero-card">
+      <div>
+        <span class="eyebrow light">REPORT READY</span>
+        <h2>Inspection Report</h2>
+        <p>Validated inspection data and calculated quality results.</p>
+      </div>
+
+      <div class="ready-badge">READY</div>
+    </section>
+
+    <div class="summary-grid">
+
+      <div class="summary-card">
+        <span>Total Parts</span>
+        <strong>{{ report.overallSummary?.totalParts ?? 0 }}</strong>
+      </div>
+
+      <div class="summary-card">
+        <span>Checked Quantity</span>
+        <strong>{{ report.overallSummary?.totalQty ?? 0 }}</strong>
+      </div>
+
+      <div class="summary-card green-card">
+        <span>OK Quantity</span>
+        <strong>{{ report.overallSummary?.okQty ?? 0 }}</strong>
+      </div>
+
+      <div class="summary-card red-card">
+        <span>NG Quantity</span>
+        <strong>{{ report.overallSummary?.ngQty ?? 0 }}</strong>
+      </div>
+
+      <div class="summary-card orange-card">
+        <span>Rejection %</span>
+        <strong>{{ report.overallSummary?.rejectionPercentage ?? 0 }}%</strong>
+      </div>
+
+    </div>
+
+    <section class="panel">
+      <div class="panel-title">
+        <div>
+          <h3>Model-wise Summary</h3>
+          <p>Inspection results grouped by model.</p>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Model</th>
+              <th>Parts</th>
+              <th>Checked</th>
+              <th>OK</th>
+              <th>NG</th>
+              <th>Reject %</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr *ngFor="let item of report.modelWiseSummary">
+              <td><strong>{{ item.model }}</strong></td>
+              <td>{{ item.totalParts }}</td>
+              <td>{{ item.totalQty }}</td>
+              <td class="ok">{{ item.okQty }}</td>
+              <td class="ng">{{ item.ngQty }}</td>
+              <td>{{ item.rejectionPercentage }}%</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <div class="two-column">
+
+      <section class="panel">
+        <div class="panel-title">
+          <div>
+            <h3>Defect Summary</h3>
+            <p>NG quantity by defect.</p>
+          </div>
+        </div>
+
+        <div class="defect-list" *ngIf="report.defectSummary">
+          <div class="defect-row" *ngFor="let item of report.defectSummary | keyvalue">
+            <span>{{ item.key }}</span>
+            <strong>{{ item.value }}</strong>
+          </div>
+        </div>
+
+        <div class="empty" *ngIf="!report.defectSummary || !hasDefects()">
+          No defects recorded.
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-title">
+          <div>
+            <h3>Packaging-wise Result</h3>
+            <p>Packaging inspection results.</p>
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Packaging</th>
+                <th>Checked</th>
+                <th>OK</th>
+                <th>NG</th>
+                <th>Result</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr *ngFor="let item of report.packagingWiseResult">
+                <td>{{ item.packaging }}</td>
+                <td>{{ item.checkedQty }}</td>
+                <td class="ok">{{ item.okQty }}</td>
+                <td class="ng">{{ item.ngQty }}</td>
+                <td>
+                  <span class="result-badge" [class.fail]="item.result === 'FAIL'">
+                    {{ item.result }}
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    </div>
+
+    <section class="panel">
+      <div class="panel-title">
+        <div>
+          <h3>NG Parts Detail</h3>
+          <p>Parts with non-conforming quantity.</p>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Part No</th>
+              <th>Part Name</th>
+              <th>Model</th>
+              <th>NG Qty</th>
+              <th>Defect</th>
+              <th>Packaging</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr *ngFor="let item of report.ngPartsDetail">
+              <td><strong>{{ item.partNo }}</strong></td>
+              <td>{{ item.partName }}</td>
+              <td>{{ item.model || '—' }}</td>
+              <td class="ng">{{ item.ngQty }}</td>
+              <td>{{ item.defect || '—' }}</td>
+              <td>{{ item.packaging || '—' }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="empty" *ngIf="!report.ngPartsDetail?.length">
+        No NG parts found.
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-title">
+        <div>
+          <h3>Part-wise Summary</h3>
+          <p>Complete calculated result by part.</p>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Part No</th>
+              <th>Part Name</th>
+              <th>Vendor</th>
+              <th>Model</th>
+              <th>Checked</th>
+              <th>OK</th>
+              <th>NG</th>
+              <th>Reject %</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr *ngFor="let item of report.partWiseSummary">
+              <td><strong>{{ item.partNo }}</strong></td>
+              <td>{{ item.partName }}</td>
+              <td>{{ item.vendorCode }}</td>
+              <td>{{ item.model || '—' }}</td>
+              <td>{{ item.totalQty }}</td>
+              <td class="ok">{{ item.okQty }}</td>
+              <td class="ng">{{ item.ngQty }}</td>
+              <td>{{ item.rejectionPercentage }}%</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <div class="error" *ngIf="errorMessage">
+      {{ errorMessage }}
+    </div>
+
+  </main>
+
+</div>
