@@ -1,1 +1,138 @@
-<p>validation-result works!</p>
+<div class="validation-page" *ngIf="report">
+
+  <header class="topbar">
+    <div>
+      <span class="eyebrow">INSPECTION</span>
+      <h1>Validation Result</h1>
+      <p>Review every validation result before generating the report.</p>
+    </div>
+
+    <div class="actions">
+      <button class="secondary-btn" routerLink="/dashboard">Dashboard</button>
+      <button class="secondary-btn" routerLink="/inspection/upload">Back to Upload</button>
+    </div>
+  </header>
+
+  <main>
+
+    <section class="hero-card">
+      <div>
+        <span class="eyebrow light">VALIDATION</span>
+        <h2>{{ report.reportGenerationAllowed ? 'Inspection Data Valid' : 'Inspection Data Blocked' }}</h2>
+        <p>
+          {{ report.reportGenerationAllowed
+            ? 'All inspection records passed the current validation rules.'
+            : 'Fix the listed validation issues before generating the report.' }}
+        </p>
+      </div>
+
+      <span class="status-badge" [class.blocked]="!report.reportGenerationAllowed">
+        {{ report.reportGenerationAllowed ? 'READY' : 'BLOCKED' }}
+      </span>
+    </section>
+
+    <section class="summary-grid">
+
+      <div class="summary-card">
+        <span>Total Records</span>
+        <strong>{{ report.totalRecords ?? 0 }}</strong>
+      </div>
+
+      <div class="summary-card green-card">
+        <span>Valid Records</span>
+        <strong>{{ report.validRecords ?? 0 }}</strong>
+      </div>
+
+      <div class="summary-card red-card">
+        <span>Invalid Records</span>
+        <strong>{{ report.invalidRecords ?? 0 }}</strong>
+      </div>
+
+      <div class="summary-card orange-card">
+        <span>Duplicates</span>
+        <strong>{{ report.duplicateRecords ?? 0 }}</strong>
+      </div>
+
+    </section>
+
+    <section class="panel" *ngIf="report.validationWarnings?.length">
+
+      <div class="panel-header">
+        <div>
+          <h3>Validation Issues</h3>
+          <p>Exact Excel location and reason for each invalid record.</p>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Part No</th>
+              <th>Sheet</th>
+              <th>Excel Row</th>
+              <th>Inspection Date</th>
+              <th>Error</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <ng-container *ngFor="let warning of report.validationWarnings">
+              <tr *ngFor="let error of warning.errors">
+                <td><strong>{{ warning.partNo || 'Unknown' }}</strong></td>
+                <td>{{ warning.sheetName || '—' }}</td>
+                <td>{{ warning.excelRow || '—' }}</td>
+                <td>{{ warning.inspectionDate || '—' }}</td>
+                <td class="error-text">{{ error }}</td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
+
+    </section>
+
+    <section class="panel" *ngIf="report.duplicateWarnings?.length">
+
+      <div class="panel-header">
+        <div>
+          <h3>Duplicate Records</h3>
+          <p>Duplicate rows detected in the uploaded Excel file.</p>
+        </div>
+      </div>
+
+      <div class="duplicate-list">
+        <div class="duplicate-row" *ngFor="let item of report.duplicateWarnings">
+          <strong>{{ item.partNo || 'Unknown Part' }}</strong>
+          <span>{{ item.sheetName || '—' }} | Row {{ item.duplicateRow || '—' }}</span>
+          <small>{{ item.message }}</small>
+        </div>
+      </div>
+
+    </section>
+
+    <section class="empty-panel"
+      *ngIf="!report.validationWarnings?.length && !report.duplicateWarnings?.length">
+
+      <div class="success-icon">✓</div>
+      <h3>No validation issues</h3>
+      <p>All uploaded records passed validation.</p>
+
+    </section>
+
+    <div class="bottom-actions">
+      <button class="secondary-btn" routerLink="/inspection/upload">
+        Upload Another File
+      </button>
+
+      <button
+        class="primary-btn"
+        *ngIf="report.reportGenerationAllowed"
+        (click)="openReport()">
+        Open Report →
+      </button>
+    </div>
+
+  </main>
+
+</div>
