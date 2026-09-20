@@ -18,11 +18,19 @@
     <section class="hero-card">
       <div>
         <span class="eyebrow light">VALIDATION</span>
-        <h2>{{ report.reportGenerationAllowed ? 'Inspection Data Valid' : 'Inspection Data Blocked' }}</h2>
+        <h2>
+          {{ report.reportGenerationAllowed
+            ? ((report.invalidRecords || report.duplicateRecords)
+              ? 'Report Ready with Warnings'
+              : 'Inspection Data Valid')
+            : 'Inspection Data Blocked' }}
+        </h2>
         <p>
           {{ report.reportGenerationAllowed
-            ? 'All inspection records passed the current validation rules.'
-            : 'Fix the listed validation issues before generating the report.' }}
+            ? ((report.invalidRecords || report.duplicateRecords)
+              ? 'Valid records will be included in the report. Invalid or duplicate rows are excluded.'
+              : 'All inspection records passed the current validation rules.')
+            : 'No valid records are available for report generation.' }}
         </p>
       </div>
 
