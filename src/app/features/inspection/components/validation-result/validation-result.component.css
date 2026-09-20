@@ -1,0 +1,307 @@
+:host {
+  display: block;
+  min-height: 100vh;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.validation-page {
+  min-height: 100vh;
+  padding: 0 34px 40px;
+  background: #f5f7fb;
+  color: #172033;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.topbar {
+  min-height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #eaecf0;
+}
+
+.eyebrow {
+  display: block;
+  margin-bottom: 5px;
+  color: #667085;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.4px;
+}
+
+.eyebrow.light {
+  color: #bfdbfe;
+}
+
+.topbar h1 {
+  margin: 0;
+  font-size: 25px;
+}
+
+.topbar p {
+  margin: 7px 0 0;
+  color: #98a2b3;
+  font-size: 12px;
+}
+
+.actions,
+.bottom-actions {
+  display: flex;
+  gap: 10px;
+}
+
+main {
+  max-width: 1200px;
+  margin: 24px auto 0;
+}
+
+.hero-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 25px 28px;
+  border-radius: 14px;
+  background: linear-gradient(120deg, #172554, #2563eb);
+  color: white;
+}
+
+.hero-card h2 {
+  margin: 0;
+  font-size: 22px;
+}
+
+.hero-card p {
+  margin: 7px 0 0;
+  color: #dbeafe;
+  font-size: 12px;
+}
+
+.status-badge {
+  padding: 7px 11px;
+  border-radius: 20px;
+  background: #ecfdf3;
+  color: #15803d;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.status-badge.blocked {
+  background: #fef2f2;
+  color: #b91c1c;
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin: 18px 0;
+}
+
+.summary-card {
+  padding: 18px;
+  background: white;
+  border: 1px solid #eaecf0;
+  border-radius: 12px;
+}
+
+.summary-card span,
+.summary-card strong {
+  display: block;
+}
+
+.summary-card span {
+  color: #667085;
+  font-size: 11px;
+}
+
+.summary-card strong {
+  margin-top: 7px;
+  font-size: 24px;
+}
+
+.green-card strong {
+  color: #16a34a;
+}
+
+.red-card strong {
+  color: #dc2626;
+}
+
+.orange-card strong {
+  color: #ea580c;
+}
+
+.panel,
+.empty-panel {
+  margin-top: 18px;
+  padding: 21px;
+  background: white;
+  border: 1px solid #eaecf0;
+  border-radius: 12px;
+}
+
+.panel-header {
+  margin-bottom: 18px;
+}
+
+.panel-header h3 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.panel-header p {
+  margin: 4px 0 0;
+  color: #98a2b3;
+  font-size: 11px;
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  min-width: 900px;
+  border-collapse: collapse;
+}
+
+th {
+  padding: 11px;
+  background: #f8fafc;
+  color: #667085;
+  font-size: 10px;
+  text-align: left;
+  white-space: nowrap;
+}
+
+td {
+  padding: 12px 11px;
+  border-bottom: 1px solid #f2f4f7;
+  color: #667085;
+  font-size: 11px;
+  vertical-align: top;
+}
+
+td strong {
+  color: #344054;
+}
+
+.error-text {
+  color: #b91c1c;
+  font-weight: 600;
+}
+
+.duplicate-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.duplicate-row {
+  padding: 12px;
+  border: 1px solid #fed7aa;
+  background: #fff7ed;
+  border-radius: 8px;
+}
+
+.duplicate-row strong,
+.duplicate-row span,
+.duplicate-row small {
+  display: block;
+}
+
+.duplicate-row strong {
+  color: #344054;
+  font-size: 12px;
+}
+
+.duplicate-row span {
+  margin-top: 3px;
+  color: #667085;
+  font-size: 10px;
+}
+
+.duplicate-row small {
+  margin-top: 4px;
+  color: #c2410c;
+  font-size: 10px;
+}
+
+.empty-panel {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.success-icon {
+  width: 46px;
+  height: 46px;
+  margin: 0 auto 10px;
+  border-radius: 50%;
+  background: #ecfdf3;
+  color: #16a34a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
+
+.empty-panel h3 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.empty-panel p {
+  margin: 6px 0 0;
+  color: #98a2b3;
+  font-size: 11px;
+}
+
+.primary-btn,
+.secondary-btn {
+  border-radius: 8px;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.primary-btn {
+  border: 0;
+  background: #2563eb;
+  color: white;
+}
+
+.secondary-btn {
+  border: 1px solid #d0d5dd;
+  background: white;
+  color: #344054;
+}
+
+.bottom-actions {
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+@media (max-width: 800px) {
+  .validation-page {
+    padding: 0 15px 25px;
+  }
+
+  .topbar,
+  .hero-card {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .summary-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .actions,
+  .bottom-actions {
+    width: 100%;
+  }
+}
