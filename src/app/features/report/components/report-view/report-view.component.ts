@@ -37,6 +37,16 @@ export class ReportViewComponent implements OnInit {
     }
   }
 
+  hasDefects(): boolean {
+    const defects = this.report?.defectSummary;
+
+    if (!defects || typeof defects !== 'object') {
+      return false;
+    }
+
+    return Object.keys(defects).length > 0;
+  }
+
   downloadPdf(): void {
     const file = this.inspectionService.getSelectedFile();
 
