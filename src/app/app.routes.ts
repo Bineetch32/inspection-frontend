@@ -56,6 +56,11 @@ export const routes: Routes = [
   },
 
   {
+    path: 'part-master/edit/:id',
+    component: PartAddComponent
+  },
+
+  {
     path: 'report',
     component: ReportViewComponent
   }
