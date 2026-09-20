@@ -13,7 +13,10 @@ export interface LoginResponse {
 })
 export class AuthService {
 
-  private readonly apiUrl = environment.apiUrl + '/auth';
+  private readonly apiUrl =
+    window.location.hostname === 'localhost'
+      ? 'http://localhost:8080/api/auth'
+      : '/api/auth';
 
   constructor(private http: HttpClient) {}
 
