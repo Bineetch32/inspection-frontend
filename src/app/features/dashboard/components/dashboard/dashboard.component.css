@@ -564,3 +564,46 @@ td strong {
     grid-template-columns: 1fr;
   }
 }
+
+
+.empty-state {
+  min-height: 170px;
+  border: 1px dashed #d0d5dd;
+  border-radius: 10px;
+  background: #f8fafc;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  text-align: center;
+  padding: 25px;
+}
+
+.empty-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: #eff6ff;
+  color: #2563eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 4px;
+}
+
+.empty-state strong {
+  font-size: 13px;
+  color: #344054;
+}
+
+.empty-state > span {
+  max-width: 430px;
+  color: #98a2b3;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.empty-state .view-btn {
+  margin-top: 8px;
+}
