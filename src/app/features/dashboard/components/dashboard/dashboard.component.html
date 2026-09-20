@@ -34,7 +34,7 @@
     <div class="sidebar-bottom">
       <div class="system-status">
         <span class="status-dot"></span>
-        System Online
+        Backend connected
       </div>
 
       <button class="logout-btn" routerLink="/login">
@@ -81,7 +81,7 @@
         <div class="stat-icon blue">▣</div>
         <div>
           <span>Total Inspections</span>
-          <h3>14</h3>
+          <h3>{{ totalInspections }}</h3>
           <small>Inspection records</small>
         </div>
       </div>
@@ -90,7 +90,7 @@
         <div class="stat-icon green">✓</div>
         <div>
           <span>Valid Records</span>
-          <h3>14</h3>
+          <h3>{{ validRecords }}</h3>
           <small>Ready for report</small>
         </div>
       </div>
@@ -99,7 +99,7 @@
         <div class="stat-icon orange">!</div>
         <div>
           <span>Warnings</span>
-          <h3>0</h3>
+          <h3>{{ warnings }}</h3>
           <small>Need attention</small>
         </div>
       </div>
@@ -108,8 +108,8 @@
         <div class="stat-icon purple">▤</div>
         <div>
           <span>Reports</span>
-          <h3>1</h3>
-          <small>Generated reports</small>
+          <h3>{{ reports }}</h3>
+          <small>Current report</small>
         </div>
       </div>
 
@@ -163,13 +163,13 @@
             <h3>System Status</h3>
             <p>Application health</p>
           </div>
-          <span class="online-badge">ONLINE</span>
+          <span class="online-badge">BACKEND</span>
         </div>
 
         <div class="status-row">
           <div>
             <strong>Backend API</strong>
-            <span>Spring Boot</span>
+            <span>Spring Boot :8080</span>
           </div>
           <span class="check">✓</span>
         </div>
@@ -199,38 +199,57 @@
       <div class="panel-header">
         <div>
           <h3>Recent Inspection</h3>
-          <p>Latest inspection activity</p>
+          <p>Latest part-wise data from the last calculation</p>
         </div>
 
         <button class="view-btn" routerLink="/report">View All</button>
       </div>
 
       <div class="table-wrapper">
-        <table>
-          <thead>
-            <tr>
-              <th>Part No</th>
-              <th>Part Name</th>
-              <th>Model</th>
-              <th>Checked Qty</th>
-              <th>OK</th>
-              <th>NG</th>
-              <th>Status</th>
-            </tr>
-          </thead>
 
-          <tbody>
-            <tr>
-              <td><strong>Example Part</strong></td>
-              <td>Inspection Record</td>
-              <td>Model</td>
-              <td>—</td>
-              <td class="ok-text">—</td>
-              <td class="ng-text">—</td>
-              <td><span class="pending-badge">READY</span></td>
-            </tr>
-          </tbody>
-        </table>
+        @if (recentParts.length > 0) {
+          <table>
+            <thead>
+              <tr>
+                <th>Part No</th>
+                <th>Part Name</th>
+                <th>Model</th>
+                <th>Checked Qty</th>
+                <th>OK</th>
+                <th>NG</th>
+                <th>Reject %</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              @for (part of recentParts; track $index) {
+                <tr>
+                  <td><strong>{{ part.partNo }}</strong></td>
+                  <td>{{ part.partName || '—' }}</td>
+                  <td>{{ part.model || '—' }}</td>
+                  <td>{{ part.totalQty }}</td>
+                  <td class="ok-text">{{ part.okQty }}</td>
+                  <td class="ng-text">{{ part.ngQty }}</td>
+                  <td>
+                    <span class="pending-badge">
+                      {{ part.rejectionPercentage }}%
+                    </span>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        } @else {
+          <div class="empty-state">
+            <div class="empty-icon">▣</div>
+            <strong>No inspection data yet</strong>
+            <span>Upload an Excel file to calculate and display real inspection data here.</span>
+            <button class="view-btn" routerLink="/inspection/upload">
+              Upload Inspection
+            </button>
+          </div>
+        }
+
       </div>
 
     </section>
