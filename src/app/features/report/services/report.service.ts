@@ -36,7 +36,7 @@ export class ReportService {
     }
 
     return this.http.get<any>(
-      `${this.apiUrl}/current`,
+      `${this.apiUrl}/report/current`,
       { params }
     );
   }
@@ -58,7 +58,7 @@ export class ReportService {
     }
 
     return this.http.get(
-      `${this.apiUrl}/pdf/current`,
+      `${this.apiUrl}/report/pdf/current`,
       {
         params,
         responseType: 'blob'
