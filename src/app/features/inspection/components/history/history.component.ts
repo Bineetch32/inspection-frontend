@@ -17,7 +17,15 @@ export class HistoryComponent implements OnInit {
 
   records: InspectionHistoryRecord[] = [];
   filteredRecords: InspectionHistoryRecord[] = [];
+
   searchText = '';
+  fromDate = '';
+  toDate = '';
+  status = '';
+  model = '';
+
+  models: string[] = [];
+
   loading = false;
   errorMessage = '';
 
@@ -28,15 +36,25 @@ export class HistoryComponent implements OnInit {
   }
 
   loadHistory(): void {
+
     this.loading = true;
     this.errorMessage = '';
 
     this.service.getAll().subscribe({
       next: (records) => {
+
         this.records = [...records].reverse();
+
+        this.models = [...new Set(
+          this.records
+            .map(record => record.model)
+            .filter(model => !!model)
+        )].sort();
+
         this.applyFilter();
         this.loading = false;
       },
+
       error: () => {
         this.loading = false;
         this.errorMessage =
@@ -46,22 +64,57 @@ export class HistoryComponent implements OnInit {
   }
 
   applyFilter(): void {
-    const value = this.searchText.trim().toLowerCase();
 
-    this.filteredRecords = value
-      ? this.records.filter(record =>
-          [
-            record.partNo,
-            record.partName,
-            record.vendorCode,
-            record.vendorName,
-            record.model,
-            record.inspectionStatus,
-            record.defectDescription
-          ].some(field =>
-            (field ?? '').toLowerCase().includes(value)
-          )
-        )
-      : [...this.records];
+    const search = this.searchText.trim().toLowerCase();
+
+    this.filteredRecords = this.records.filter(record => {
+
+      const matchesSearch =
+        !search ||
+        [
+          record.partNo,
+          record.partName,
+          record.vendorCode,
+          record.vendorName,
+          record.model,
+          record.inspectionStatus,
+          record.defectDescription
+        ].some(field =>
+          (field ?? '').toLowerCase().includes(search)
+        );
+
+      const matchesFromDate =
+        !this.fromDate ||
+        record.inspectionDate >= this.fromDate;
+
+      const matchesToDate =
+        !this.toDate ||
+        record.inspectionDate <= this.toDate;
+
+      const matchesStatus =
+        !this.status ||
+        record.inspectionStatus?.toUpperCase() === this.status;
+
+      const matchesModel =
+        !this.model ||
+        record.model?.toLowerCase() === this.model.toLowerCase();
+
+      return (
+        matchesSearch &&
+        matchesFromDate &&
+        matchesToDate &&
+        matchesStatus &&
+        matchesModel
+      );
+    });
+  }
+
+  clearFilters(): void {
+    this.searchText = '';
+    this.fromDate = '';
+    this.toDate = '';
+    this.status = '';
+    this.model = '';
+    this.applyFilter();
   }
 }
