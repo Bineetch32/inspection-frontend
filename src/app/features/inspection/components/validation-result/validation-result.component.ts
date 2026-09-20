@@ -31,4 +31,61 @@ export class ValidationResultComponent implements OnInit {
       this.router.navigate(['/report']);
     }
   }
+
+  downloadErrors(): void {
+
+    const rows: string[][] = [
+      ['Type', 'Part No', 'Sheet', 'Excel Row', 'Inspection Date', 'Message']
+    ];
+
+    for (const warning of this.report?.validationWarnings ?? []) {
+      for (const error of warning.errors ?? []) {
+        rows.push([
+          'Validation Error',
+          warning.partNo ?? '',
+          warning.sheetName ?? '',
+          String(warning.excelRow ?? ''),
+          warning.inspectionDate ?? '',
+          error
+        ]);
+      }
+    }
+
+    for (const warning of this.report?.duplicateWarnings ?? []) {
+      rows.push([
+        'Duplicate',
+        warning.partNo ?? '',
+        warning.sheetName ?? '',
+        String(warning.duplicateRow ?? ''),
+        '',
+        warning.message ?? 'Duplicate inspection entry found.'
+      ]);
+    }
+
+    if (rows.length === 1) {
+      return;
+    }
+
+    const csv = rows
+      .map(row =>
+        row.map(value =>
+          '"' + String(value).replace(/"/g, '""') + '"'
+        ).join(',')
+      )
+      .join('\r\n');
+
+    const blob = new Blob(
+      ['\uFEFF', csv],
+      { type: 'text/csv;charset=utf-8;' }
+    );
+
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+
+    link.href = url;
+    link.download = 'Inspection-Validation-Errors.csv';
+    link.click();
+
+    window.URL.revokeObjectURL(url);
+  }
 }
