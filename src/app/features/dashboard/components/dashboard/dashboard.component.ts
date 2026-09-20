@@ -1,8 +1,9 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { PLATFORM_ID } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { ReportService } from '../../../report/services/report.service';
+import { AuthService } from '../../../auth/services/auth.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -20,7 +21,16 @@ export class DashboardComponent implements OnInit {
   reports = 0;
   recentParts: any[] = [];
 
-  constructor(private reportService: ReportService) {}
+  constructor(
+    private reportService: ReportService,
+    private authService: AuthService,
+    private router: Router
+  ) {}
+
+  logout(): void {
+    this.authService.logout();
+    this.router.navigate(['/login']);
+  }
 
   ngOnInit(): void {
     if (!isPlatformBrowser(this.platformId)) {
