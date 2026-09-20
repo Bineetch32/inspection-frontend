@@ -81,6 +81,12 @@ export class UploadComponent {
     this.router.navigate(['/dashboard']);
   }
 
+  openValidation(): void {
+    if (this.report) {
+      this.router.navigate(['/inspection/validation']);
+    }
+  }
+
   openReport(): void {
     if (this.report?.reportGenerationAllowed) {
       this.router.navigate(['/report']);
