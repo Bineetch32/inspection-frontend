@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
-import { environment } from '../../../../environments/environment';
 
 export interface LoginResponse {
   username: string;
@@ -14,7 +13,10 @@ export interface LoginResponse {
 })
 export class AuthService {
 
-  private readonly apiUrl = environment.apiUrl + '/auth';
+  private readonly apiUrl =
+    window.location.hostname === 'localhost'
+      ? 'http://localhost:8080/api/auth'
+      : 'https://inspection-backend-live-production.up.railway.app/api/auth';
 
   constructor(private http: HttpClient) {}
 
