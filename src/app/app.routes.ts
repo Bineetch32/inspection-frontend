@@ -4,6 +4,7 @@ import { LoginComponent } from './features/auth/components/login/login.component
 import { DashboardComponent } from './features/dashboard/components/dashboard/dashboard.component';
 
 import { UploadComponent } from './features/inspection/components/upload/upload.component';
+import { HistoryComponent } from './features/inspection/components/history/history.component';
 import { ValidationResultComponent } from './features/inspection/components/validation-result/validation-result.component';
 import { ReportPreviewComponent } from './features/inspection/components/report-preview/report-preview.component';
 
@@ -33,6 +34,11 @@ export const routes: Routes = [
   {
     path: 'inspection/upload',
     component: UploadComponent
+  },
+
+  {
+    path: 'inspection/history',
+    component: HistoryComponent
   },
 
   {
