@@ -1,1 +1,100 @@
-<p>upload works!</p>
+<div class="page">
+
+  <header class="topbar">
+    <div>
+      <span class="eyebrow">INSPECTION</span>
+      <h1>Upload Inspection Data</h1>
+      <p>Upload the Excel file and validate inspection records before generating a report.</p>
+    </div>
+
+    <button class="back-btn" (click)="openDashboard()">← Dashboard</button>
+  </header>
+
+  <main>
+    <section class="upload-card">
+      <div class="upload-icon">↑</div>
+      <h2>Upload Excel File</h2>
+      <p class="hint">Supported formats: .xlsx and .xls</p>
+
+      <label class="file-box">
+        <input type="file" accept=".xlsx,.xls" (change)="onFileSelected($event)" />
+        <span class="file-title">
+          {{ selectedFile ? selectedFile.name : 'Choose inspection Excel file' }}
+        </span>
+        <span class="file-subtitle">
+          {{ selectedFile ? 'File selected' : 'Click here to browse' }}
+        </span>
+      </label>
+
+      <button class="calculate-btn" [disabled]="loading" (click)="calculateReport()">
+        {{ loading ? 'Validating...' : 'Validate & Calculate Report' }}
+      </button>
+
+      @if (errorMessage) {
+        <div class="message error">{{ errorMessage }}</div>
+      }
+
+      @if (successMessage) {
+        <div class="message success">{{ successMessage }}</div>
+      }
+    </section>
+
+    @if (report) {
+      <section class="result-card">
+        <div class="result-header">
+          <div>
+            <span class="eyebrow">VALIDATION RESULT</span>
+            <h2>Inspection Summary</h2>
+          </div>
+
+          <span class="status" [class.blocked]="!report.reportGenerationAllowed">
+            {{ report.reportGenerationAllowed ? 'READY' : 'BLOCKED' }}
+          </span>
+        </div>
+
+        <div class="summary-grid">
+          <div>
+            <span>Total Records</span>
+            <strong>{{ report.totalRecords }}</strong>
+          </div>
+          <div>
+            <span>Valid Records</span>
+            <strong class="green">{{ report.validRecords }}</strong>
+          </div>
+          <div>
+            <span>Invalid Records</span>
+            <strong class="red">{{ report.invalidRecords }}</strong>
+          </div>
+          <div>
+            <span>Duplicates</span>
+            <strong>{{ report.duplicateRecords }}</strong>
+          </div>
+        </div>
+
+        @if (report.validationWarnings?.length) {
+          <div class="warning-box">
+            <strong>Validation issues found</strong>
+
+            @for (warning of report.validationWarnings; track $index) {
+              <div class="warning-row">
+                <b>{{ warning.partNo || 'Unknown Part' }}</b>
+                <span>Sheet: {{ warning.sheetName }} | Row: {{ warning.excelRow }}</span>
+
+                @for (error of warning.errors; track $index) {
+                  <small>{{ error }}</small>
+                }
+              </div>
+            }
+          </div>
+        }
+
+        @if (report.reportGenerationAllowed) {
+          <button class="dashboard-btn" (click)="openDashboard()">
+            View Dashboard →
+          </button>
+        }
+      </section>
+    }
+  </main>
+
+</div>
