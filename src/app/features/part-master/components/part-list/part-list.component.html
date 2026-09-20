@@ -9,6 +9,18 @@
 
     <div class="top-actions">
       <button class="secondary-btn" routerLink="/dashboard">Dashboard</button>
+      <button class="secondary-btn" (click)="downloadTemplate()">Excel Template</button>
+
+      <label class="secondary-btn upload-btn">
+        {{ importing ? 'Importing...' : 'Import Excel' }}
+        <input
+          type="file"
+          accept=".xlsx,.xls"
+          [disabled]="importing"
+          (change)="onImportFileSelected($event)"
+        />
+      </label>
+
       <button class="primary-btn" (click)="addPart()">+ Add Part</button>
     </div>
   </header>
@@ -25,6 +37,20 @@
       <div class="count-box">
         <strong>{{ parts.length }}</strong>
         <span>Total Parts</span>
+      </div>
+    </section>
+
+    <section class="panel import-panel">
+      <div>
+        <h3>Bulk Import</h3>
+        <p>
+          Download the template, fill your Part Master rows and upload once.
+          Valid rows are added automatically; duplicate/invalid rows are skipped and shown below.
+        </p>
+      </div>
+      <div class="import-note">
+        Required: Part No, Part Name, Vendor Code, Vendor Name, Model, Packaging.
+        Active is optional and defaults to ACTIVE.
       </div>
     </section>
 
@@ -53,6 +79,16 @@
 
       <div *ngIf="successMessage" class="message success">
         {{ successMessage }}
+      </div>
+
+      <div *ngIf="importErrors.length" class="import-errors">
+        <strong>Skipped Rows</strong>
+
+        <div class="error-row" *ngFor="let error of importErrors">
+          <span>Excel Row {{ error.row }}</span>
+          <span>{{ error.partNo || '-' }}</span>
+          <span>{{ error.message }}</span>
+        </div>
       </div>
 
       <div *ngIf="loading" class="loading">
