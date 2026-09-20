@@ -1,1 +1,58 @@
-<p>login works!</p>
+<div class="login-page">
+
+  <div class="login-brand">
+    <div class="brand-icon">IR</div>
+    <div>
+      <strong>Inspection</strong>
+      <span>Management System</span>
+    </div>
+  </div>
+
+  <section class="login-card">
+
+    <div class="login-heading">
+      <span class="eyebrow">SECURE ACCESS</span>
+      <h1>Welcome back</h1>
+      <p>Sign in to manage inspections, Part Master and reports.</p>
+    </div>
+
+    <form (ngSubmit)="login()" #loginForm="ngForm">
+
+      <label>
+        <span>Username</span>
+        <input
+          name="username"
+          [(ngModel)]="username"
+          required
+          autocomplete="username"
+          placeholder="Enter username" />
+      </label>
+
+      <label>
+        <span>Password</span>
+        <input
+          type="password"
+          name="password"
+          [(ngModel)]="password"
+          required
+          autocomplete="current-password"
+          placeholder="Enter password" />
+      </label>
+
+      <div *ngIf="errorMessage" class="error-message">
+        {{ errorMessage }}
+      </div>
+
+      <button
+        type="submit"
+        [disabled]="loading || !loginForm.form.valid">
+        {{ loading ? 'Signing in...' : 'Sign In' }}
+      </button>
+
+    </form>
+
+  </section>
+
+  <small class="footer">Inspection Management System</small>
+
+</div>
