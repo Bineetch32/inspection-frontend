@@ -1,1 +1,111 @@
-<p>part-list works!</p>
+<div class="part-page">
+
+  <header class="topbar">
+    <div>
+      <span class="eyebrow">MASTER DATA</span>
+      <h1>Part Master</h1>
+      <p>Manage approved part, vendor, model and packaging information.</p>
+    </div>
+
+    <div class="top-actions">
+      <button class="secondary-btn" routerLink="/dashboard">Dashboard</button>
+      <button class="primary-btn" (click)="addPart()">+ Add Part</button>
+    </div>
+  </header>
+
+  <main>
+
+    <section class="hero-card">
+      <div>
+        <span class="eyebrow light">PART MASTER</span>
+        <h2>Approved Inspection Parts</h2>
+        <p>Only active master parts can pass inspection validation.</p>
+      </div>
+
+      <div class="count-box">
+        <strong>{{ parts.length }}</strong>
+        <span>Total Parts</span>
+      </div>
+    </section>
+
+    <section class="panel">
+
+      <div class="panel-header">
+        <div>
+          <h3>Part List</h3>
+          <p>{{ filteredParts.length }} matching record(s)</p>
+        </div>
+
+        <div class="search-box">
+          <span>⌕</span>
+          <input
+            type="text"
+            [(ngModel)]="searchText"
+            (input)="applyFilter()"
+            placeholder="Search part, vendor, model..."
+          />
+        </div>
+      </div>
+
+      <div *ngIf="errorMessage" class="message error">
+        {{ errorMessage }}
+      </div>
+
+      <div *ngIf="successMessage" class="message success">
+        {{ successMessage }}
+      </div>
+
+      <div *ngIf="loading" class="loading">
+        Loading Part Master...
+      </div>
+
+      <div class="table-wrap" *ngIf="!loading">
+        <table>
+          <thead>
+            <tr>
+              <th>Part No</th>
+              <th>Part Name</th>
+              <th>Vendor Code</th>
+              <th>Vendor Name</th>
+              <th>Model</th>
+              <th>Packaging</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr *ngFor="let part of filteredParts">
+              <td><strong>{{ part.partNo }}</strong></td>
+              <td>{{ part.partName }}</td>
+              <td>{{ part.vendorCode }}</td>
+              <td>{{ part.vendorName }}</td>
+              <td>{{ part.model }}</td>
+              <td>{{ part.packaging }}</td>
+              <td>
+                <span class="status-badge" [class.inactive]="!part.active">
+                  {{ part.active ? 'ACTIVE' : 'INACTIVE' }}
+                </span>
+              </td>
+              <td>
+                <div class="actions">
+                  <button class="edit-btn" (click)="editPart(part.id)">Edit</button>
+                  <button class="delete-btn" (click)="deletePart(part)">Delete</button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div *ngIf="filteredParts.length === 0" class="empty-state">
+          <div class="empty-icon">▦</div>
+          <strong>No Part Master records found</strong>
+          <span>Click “Add Part” to create the first approved part.</span>
+          <button class="primary-btn" (click)="addPart()">Add Part</button>
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+</div>
