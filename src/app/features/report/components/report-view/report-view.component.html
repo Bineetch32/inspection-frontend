@@ -16,6 +16,14 @@
     </div>
   </header>
 
+  <div class="error" *ngIf="loading">
+    Loading report from MySQL...
+  </div>
+
+  <div class="error" *ngIf="!loading && errorMessage">
+    {{ errorMessage }}
+  </div>
+
   <main *ngIf="report">
 
     <section class="hero-card">
@@ -230,10 +238,6 @@
         </table>
       </div>
     </section>
-
-    <div class="error" *ngIf="errorMessage">
-      {{ errorMessage }}
-    </div>
 
   </main>
 
