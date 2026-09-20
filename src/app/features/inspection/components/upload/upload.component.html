@@ -88,11 +88,17 @@
           </div>
         }
 
-        @if (report.reportGenerationAllowed) {
-          <button class="dashboard-btn" (click)="openReport()">
-            Open Report Preview →
+        <div class="result-actions">
+          <button class="secondary-action" (click)="openValidation()">
+            View Validation Details →
           </button>
-        }
+
+          @if (report.reportGenerationAllowed) {
+            <button class="dashboard-btn" (click)="openReport()">
+              Open Report Preview →
+            </button>
+          }
+        </div>
       </section>
     }
   </main>
