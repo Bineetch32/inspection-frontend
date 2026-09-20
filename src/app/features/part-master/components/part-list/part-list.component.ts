@@ -18,8 +18,10 @@ export class PartListComponent implements OnInit {
   filteredParts: PartMaster[] = [];
   searchText = '';
   loading = false;
+  importing = false;
   errorMessage = '';
   successMessage = '';
+  importErrors: any[] = [];
 
   constructor(
     private partMasterService: PartMasterService,
@@ -104,6 +106,77 @@ export class PartListComponent implements OnInit {
       },
       error: () => {
         this.errorMessage = 'Unable to delete the part.';
+      }
+    });
+  }
+
+  onImportFileSelected(event: Event): void {
+
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+
+    if (!file) {
+      return;
+    }
+
+    this.errorMessage = '';
+    this.successMessage = '';
+    this.importErrors = [];
+
+    const name = file.name.toLowerCase();
+
+    if (!name.endsWith('.xlsx') && !name.endsWith('.xls')) {
+      this.errorMessage = 'Please select an .xlsx or .xls Part Master file.';
+      input.value = '';
+      return;
+    }
+
+    this.importing = true;
+
+    this.partMasterService.importExcel(file).subscribe({
+      next: (result) => {
+
+        this.importing = false;
+
+        this.successMessage =
+          `Import completed: ${result.addedRows ?? 0} added, ${result.skippedRows ?? 0} skipped.`;
+
+        this.importErrors = result.errors ?? [];
+
+        this.loadParts();
+        input.value = '';
+      },
+      error: (error) => {
+
+        this.importing = false;
+
+        this.errorMessage =
+          error?.error?.message ||
+          'Unable to import the Part Master Excel file.';
+
+        input.value = '';
+      }
+    });
+  }
+
+  downloadTemplate(): void {
+
+    this.errorMessage = '';
+
+    this.partMasterService.downloadTemplate().subscribe({
+      next: (blob) => {
+
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+
+        link.href = url;
+        link.download = 'Part-Master-Template.xlsx';
+        link.click();
+
+        window.URL.revokeObjectURL(url);
+      },
+      error: () => {
+        this.errorMessage = 'Unable to download the Part Master template.';
       }
     });
   }
