@@ -134,6 +134,13 @@
       </button>
 
       <button
+        class="secondary-btn"
+        *ngIf="report.invalidRecords > 0 || report.duplicateRecords > 0"
+        (click)="downloadErrors()">
+        Download Validation Errors
+      </button>
+
+      <button
         class="primary-btn"
         *ngIf="report.reportGenerationAllowed"
         (click)="openReport()">
