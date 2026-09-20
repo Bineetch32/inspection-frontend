@@ -1,8 +1,6 @@
-import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { PLATFORM_ID } from '@angular/core';
+import { Component, OnInit, PLATFORM_ID, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { InspectionService } from '../../../inspection/services/inspection.service';
 import { ReportService } from '../../services/report.service';
 
 @Component({
@@ -16,12 +14,12 @@ export class ReportViewComponent implements OnInit {
   private readonly platformId = inject(PLATFORM_ID);
 
   report: any = null;
+  loading = true;
   loadingPdf = false;
   errorMessage = '';
 
   constructor(
     private reportService: ReportService,
-    private inspectionService: InspectionService,
     private router: Router
   ) {}
 
@@ -30,36 +28,53 @@ export class ReportViewComponent implements OnInit {
       return;
     }
 
-    this.report = this.reportService.getReport();
+    this.loadReport();
+  }
 
-    if (!this.report) {
-      this.router.navigate(['/inspection/upload']);
-    }
+  loadReport(): void {
+    this.loading = true;
+    this.errorMessage = '';
+
+    this.reportService.getCurrentReport().subscribe({
+      next: (response) => {
+
+        if (!response?.reportGenerationAllowed) {
+          this.report = null;
+          this.errorMessage =
+            response?.message || 'No inspection records found.';
+        } else {
+          this.report = response;
+          this.reportService.saveReport(response);
+        }
+
+        this.loading = false;
+      },
+      error: () => {
+        this.loading = false;
+        this.errorMessage =
+          'Unable to load report from MySQL. Please check the backend.';
+      }
+    });
   }
 
   hasDefects(): boolean {
     const defects = this.report?.defectSummary;
 
-    if (!defects || typeof defects !== 'object') {
-      return false;
-    }
-
-    return Object.keys(defects).length > 0;
+    return !!(
+      defects &&
+      typeof defects === 'object' &&
+      Object.keys(defects).length
+    );
   }
 
   downloadPdf(): void {
-    const file = this.inspectionService.getSelectedFile();
-
-    if (!file) {
-      this.errorMessage = 'Original Excel file is not available. Please upload the file again.';
-      return;
-    }
 
     this.loadingPdf = true;
     this.errorMessage = '';
 
-    this.inspectionService.generatePdf(file).subscribe({
+    this.reportService.generateCurrentPdf().subscribe({
       next: (blob) => {
+
         const url = window.URL.createObjectURL(blob);
         const link = document.createElement('a');
 
@@ -72,7 +87,8 @@ export class ReportViewComponent implements OnInit {
       },
       error: () => {
         this.loadingPdf = false;
-        this.errorMessage = 'PDF generation failed. Please check that the backend is running.';
+        this.errorMessage =
+          'PDF generation failed. Please check the backend.';
       }
     });
   }
