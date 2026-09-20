@@ -36,6 +36,8 @@
           <p>{{ filteredRecords.length }} matching record(s)</p>
         </div>
 
+      <div class="filters">
+
         <div class="search-box">
           <span>⌕</span>
           <input
@@ -44,6 +46,50 @@
             (input)="applyFilter()"
             placeholder="Search part, vendor, model..." />
         </div>
+
+        <label>
+          <span>From</span>
+          <input
+            type="date"
+            [(ngModel)]="fromDate"
+            (change)="applyFilter()" />
+        </label>
+
+        <label>
+          <span>To</span>
+          <input
+            type="date"
+            [(ngModel)]="toDate"
+            (change)="applyFilter()" />
+        </label>
+
+        <label>
+          <span>Status</span>
+          <select [(ngModel)]="status" (change)="applyFilter()">
+            <option value="">All</option>
+            <option value="OK">OK</option>
+            <option value="NG">NG</option>
+          </select>
+        </label>
+
+        <label>
+          <span>Model</span>
+          <select [(ngModel)]="model" (change)="applyFilter()">
+            <option value="">All Models</option>
+            <option *ngFor="let item of models" [value]="item">
+              {{ item }}
+            </option>
+          </select>
+        </label>
+
+        <button
+          class="clear-btn"
+          type="button"
+          (click)="clearFilters()">
+          Clear
+        </button>
+
+      </div>
       </div>
 
       <div *ngIf="errorMessage" class="message error">
