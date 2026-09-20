@@ -5,5 +5,18 @@ import { Injectable } from '@angular/core';
 })
 export class ReportService {
 
-  constructor() { }
+  private readonly storageKey = 'inspectionReport';
+
+  saveReport(report: any): void {
+    sessionStorage.setItem(this.storageKey, JSON.stringify(report));
+  }
+
+  getReport(): any | null {
+    const data = sessionStorage.getItem(this.storageKey);
+    return data ? JSON.parse(data) : null;
+  }
+
+  clearReport(): void {
+    sessionStorage.removeItem(this.storageKey);
+  }
 }
