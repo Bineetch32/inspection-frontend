@@ -12,6 +12,7 @@ import { PartListComponent } from './features/part-master/components/part-list/p
 import { PartAddComponent } from './features/part-master/components/part-add/part-add.component';
 
 import { ReportViewComponent } from './features/report/components/report-view/report-view.component';
+import { authGuard } from './auth.guard';
 
 export const routes: Routes = [
 
@@ -28,46 +29,55 @@ export const routes: Routes = [
 
   {
     path: 'dashboard',
+    canActivate: [authGuard],
     component: DashboardComponent
   },
 
   {
     path: 'inspection/upload',
+    canActivate: [authGuard],
     component: UploadComponent
   },
 
   {
     path: 'inspection/history',
+    canActivate: [authGuard],
     component: HistoryComponent
   },
 
   {
     path: 'inspection/validation',
+    canActivate: [authGuard],
     component: ValidationResultComponent
   },
 
   {
     path: 'inspection/report-preview',
+    canActivate: [authGuard],
     component: ReportPreviewComponent
   },
 
   {
     path: 'part-master',
+    canActivate: [authGuard],
     component: PartListComponent
   },
 
   {
     path: 'part-master/add',
+    canActivate: [authGuard],
     component: PartAddComponent
   },
 
   {
     path: 'part-master/edit/:id',
+    canActivate: [authGuard],
     component: PartAddComponent
   },
 
   {
     path: 'report',
+    canActivate: [authGuard],
     component: ReportViewComponent
   }
 
