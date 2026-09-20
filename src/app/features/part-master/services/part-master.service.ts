@@ -24,15 +24,15 @@ export class PartMasterService {
   constructor(private http: HttpClient) {}
 
   getAllParts(): Observable<PartMaster[]> {
-    return this.http.get<PartMaster[]>(this.apiUrl);
+    return this.http.get<PartMaster[]>(`${this.apiUrl}/parts`);
   }
 
   getPart(id: number): Observable<PartMaster> {
-    return this.http.get<PartMaster>(`${this.apiUrl}/${id}`);
+    return this.http.get<PartMaster>(`${this.apiUrl}/parts/${id}`);
   }
 
   addPart(part: PartMaster): Observable<PartMaster> {
-    return this.http.post<PartMaster>(this.apiUrl, part);
+    return this.http.post<PartMaster>(`${this.apiUrl}/parts`, part);
   }
 
   updatePart(id: number, part: PartMaster): Observable<PartMaster> {
