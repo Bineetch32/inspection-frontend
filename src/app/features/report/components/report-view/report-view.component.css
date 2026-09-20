@@ -1,0 +1,300 @@
+:host {
+  display: block;
+  min-height: 100vh;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.report-page {
+  min-height: 100vh;
+  background: #f5f7fb;
+  color: #172033;
+  font-family: Arial, Helvetica, sans-serif;
+  padding-bottom: 50px;
+}
+
+.topbar {
+  background: white;
+  border-bottom: 1px solid #eaecf0;
+  padding: 24px 5%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+.eyebrow {
+  color: #2563eb;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+}
+
+.eyebrow.light {
+  color: #bfdbfe;
+}
+
+h1 {
+  margin: 5px 0;
+  font-size: 27px;
+}
+
+.topbar p {
+  margin: 0;
+  color: #667085;
+  font-size: 12px;
+}
+
+.top-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.primary-btn,
+.secondary-btn {
+  border-radius: 8px;
+  padding: 11px 15px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 12px;
+}
+
+.primary-btn {
+  border: 0;
+  background: #2563eb;
+  color: white;
+}
+
+.primary-btn:disabled {
+  opacity: .65;
+  cursor: not-allowed;
+}
+
+.secondary-btn {
+  border: 1px solid #d0d5dd;
+  background: white;
+  color: #344054;
+}
+
+main {
+  width: min(1250px, 92%);
+  margin: 25px auto;
+}
+
+.hero-card {
+  background: linear-gradient(120deg, #172554, #2563eb);
+  color: white;
+  border-radius: 14px;
+  padding: 25px 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.hero-card h2 {
+  margin: 6px 0;
+  font-size: 23px;
+}
+
+.hero-card p {
+  margin: 0;
+  color: #dbeafe;
+  font-size: 12px;
+}
+
+.ready-badge {
+  background: #dcfce7;
+  color: #166534;
+  padding: 8px 13px;
+  border-radius: 20px;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 13px;
+  margin: 18px 0;
+}
+
+.summary-card {
+  background: white;
+  border: 1px solid #eaecf0;
+  border-radius: 11px;
+  padding: 17px;
+}
+
+.summary-card span,
+.summary-card strong {
+  display: block;
+}
+
+.summary-card span {
+  color: #667085;
+  font-size: 10px;
+}
+
+.summary-card strong {
+  margin-top: 6px;
+  font-size: 23px;
+}
+
+.green-card strong,
+.ok {
+  color: #16a34a;
+}
+
+.red-card strong,
+.ng {
+  color: #dc2626;
+}
+
+.orange-card strong {
+  color: #ea580c;
+}
+
+.panel {
+  background: white;
+  border: 1px solid #eaecf0;
+  border-radius: 12px;
+  padding: 21px;
+  margin-bottom: 18px;
+}
+
+.panel-title {
+  margin-bottom: 15px;
+}
+
+.panel-title h3 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.panel-title p {
+  margin: 4px 0 0;
+  color: #98a2b3;
+  font-size: 11px;
+}
+
+.table-wrap {
+  width: 100%;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 650px;
+}
+
+th {
+  background: #f8fafc;
+  color: #667085;
+  font-size: 10px;
+  text-align: left;
+  padding: 11px;
+  white-space: nowrap;
+}
+
+td {
+  border-bottom: 1px solid #f2f4f7;
+  padding: 12px 11px;
+  color: #667085;
+  font-size: 11px;
+}
+
+td strong {
+  color: #344054;
+}
+
+.two-column {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 18px;
+}
+
+.defect-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-top: 1px solid #f2f4f7;
+  font-size: 12px;
+}
+
+.defect-row strong {
+  color: #dc2626;
+}
+
+.result-badge {
+  background: #ecfdf3;
+  color: #15803d;
+  border-radius: 20px;
+  padding: 4px 8px;
+  font-size: 9px;
+  font-weight: 700;
+}
+
+.result-badge.fail {
+  background: #fef2f2;
+  color: #b91c1c;
+}
+
+.empty {
+  padding: 22px;
+  text-align: center;
+  color: #98a2b3;
+  font-size: 11px;
+  background: #f8fafc;
+  border-radius: 8px;
+}
+
+.error {
+  background: #fef2f2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+  padding: 12px 14px;
+  border-radius: 8px;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+@media (max-width: 950px) {
+  .summary-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .two-column {
+    grid-template-columns: 1fr;
+  }
+
+  .topbar {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .top-actions {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 600px) {
+  .summary-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  main {
+    width: 94%;
+  }
+
+  .hero-card {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 15px;
+  }
+}
