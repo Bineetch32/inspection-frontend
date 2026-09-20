@@ -1,1 +1,240 @@
-<p>dashboard works!</p>
+<div class="dashboard">
+
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-icon">IR</div>
+      <div>
+        <h2>Inspection</h2>
+        <span>Management System</span>
+      </div>
+    </div>
+
+    <nav class="menu">
+      <a class="menu-item active">
+        <span>⌂</span>
+        Dashboard
+      </a>
+
+      <a class="menu-item" routerLink="/inspection/upload">
+        <span>↑</span>
+        Inspection
+      </a>
+
+      <a class="menu-item" routerLink="/part-master">
+        <span>▦</span>
+        Part Master
+      </a>
+
+      <a class="menu-item" routerLink="/report">
+        <span>▤</span>
+        Reports
+      </a>
+    </nav>
+
+    <div class="sidebar-bottom">
+      <div class="system-status">
+        <span class="status-dot"></span>
+        System Online
+      </div>
+
+      <button class="logout-btn" routerLink="/login">
+        ⇥ &nbsp; Logout
+      </button>
+    </div>
+  </aside>
+
+  <main class="main-content">
+
+    <header class="topbar">
+      <div>
+        <p class="page-label">WORKSPACE</p>
+        <h1>Dashboard</h1>
+      </div>
+
+      <div class="user-area">
+        <div class="notification">♢</div>
+
+        <div class="user-info">
+          <strong>Admin</strong>
+          <span>Inspection Manager</span>
+        </div>
+
+        <div class="avatar">A</div>
+      </div>
+    </header>
+
+    <section class="welcome">
+      <div>
+        <p class="welcome-small">WELCOME BACK</p>
+        <h2>Inspection Overview</h2>
+        <p>Monitor inspection data, validation and reports from one place.</p>
+      </div>
+
+      <button class="primary-btn" routerLink="/inspection/upload">
+        + New Inspection
+      </button>
+    </section>
+
+    <section class="stats-grid">
+
+      <div class="stat-card">
+        <div class="stat-icon blue">▣</div>
+        <div>
+          <span>Total Inspections</span>
+          <h3>14</h3>
+          <small>Inspection records</small>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon green">✓</div>
+        <div>
+          <span>Valid Records</span>
+          <h3>14</h3>
+          <small>Ready for report</small>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon orange">!</div>
+        <div>
+          <span>Warnings</span>
+          <h3>0</h3>
+          <small>Need attention</small>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon purple">▤</div>
+        <div>
+          <span>Reports</span>
+          <h3>1</h3>
+          <small>Generated reports</small>
+        </div>
+      </div>
+
+    </section>
+
+    <section class="content-grid">
+
+      <div class="panel">
+        <div class="panel-header">
+          <div>
+            <h3>Quick Actions</h3>
+            <p>Frequently used operations</p>
+          </div>
+        </div>
+
+        <div class="actions">
+
+          <button class="action-card" routerLink="/inspection/upload">
+            <div class="action-icon blue-bg">↑</div>
+            <div>
+              <strong>Upload Inspection</strong>
+              <span>Upload Excel inspection data</span>
+            </div>
+            <b>›</b>
+          </button>
+
+          <button class="action-card" routerLink="/part-master">
+            <div class="action-icon green-bg">▦</div>
+            <div>
+              <strong>Part Master</strong>
+              <span>Manage part information</span>
+            </div>
+            <b>›</b>
+          </button>
+
+          <button class="action-card" routerLink="/report">
+            <div class="action-icon purple-bg">▤</div>
+            <div>
+              <strong>View Reports</strong>
+              <span>Open inspection reports</span>
+            </div>
+            <b>›</b>
+          </button>
+
+        </div>
+      </div>
+
+      <div class="panel status-panel">
+        <div class="panel-header">
+          <div>
+            <h3>System Status</h3>
+            <p>Application health</p>
+          </div>
+          <span class="online-badge">ONLINE</span>
+        </div>
+
+        <div class="status-row">
+          <div>
+            <strong>Backend API</strong>
+            <span>Spring Boot</span>
+          </div>
+          <span class="check">✓</span>
+        </div>
+
+        <div class="status-row">
+          <div>
+            <strong>Inspection Engine</strong>
+            <span>Validation &amp; calculation</span>
+          </div>
+          <span class="check">✓</span>
+        </div>
+
+        <div class="status-row">
+          <div>
+            <strong>PDF Generator</strong>
+            <span>Report generation</span>
+          </div>
+          <span class="check">✓</span>
+        </div>
+
+      </div>
+
+    </section>
+
+    <section class="panel recent-panel">
+
+      <div class="panel-header">
+        <div>
+          <h3>Recent Inspection</h3>
+          <p>Latest inspection activity</p>
+        </div>
+
+        <button class="view-btn" routerLink="/report">View All</button>
+      </div>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Part No</th>
+              <th>Part Name</th>
+              <th>Model</th>
+              <th>Checked Qty</th>
+              <th>OK</th>
+              <th>NG</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td><strong>Example Part</strong></td>
+              <td>Inspection Record</td>
+              <td>Model</td>
+              <td>—</td>
+              <td class="ok-text">—</td>
+              <td class="ng-text">—</td>
+              <td><span class="pending-badge">READY</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </section>
+
+  </main>
+
+</div>
