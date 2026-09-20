@@ -32,6 +32,6 @@ export class InspectionHistoryService {
   constructor(private http: HttpClient) {}
 
   getAll(): Observable<InspectionHistoryRecord[]> {
-    return this.http.get<InspectionHistoryRecord[]>(this.apiUrl);
+    return this.http.get<InspectionHistoryRecord[]>(`${this.apiUrl}/inspections`);
   }
 }
