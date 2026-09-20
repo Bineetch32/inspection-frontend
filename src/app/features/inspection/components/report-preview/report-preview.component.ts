@@ -1,0 +1,11 @@
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-report-preview',
+  imports: [],
+  templateUrl: './report-preview.component.html',
+  styleUrl: './report-preview.component.css'
+})
+export class ReportPreviewComponent {
+
+}
