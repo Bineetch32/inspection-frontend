@@ -69,8 +69,10 @@ export class UploadComponent {
         error: (error) => {
           this.loading = false;
           this.errorMessage =
-            error?.error?.message ||
-            'Unable to connect to the backend. Make sure Spring Boot is running on port 8080.';
+            typeof error?.error === 'string'
+              ? error.error
+              : error?.error?.message ||
+                'Unable to connect to the backend. Make sure Spring Boot is running on port 8080.';
         }
       });
   }
