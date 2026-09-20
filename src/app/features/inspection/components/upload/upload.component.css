@@ -287,3 +287,30 @@ h2 {
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
+.result-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 5px;
+}
+
+.secondary-action {
+  border: 1px solid #d0d5dd;
+  border-radius: 8px;
+  padding: 12px 20px;
+  background: white;
+  color: #344054;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.secondary-action:hover {
+  background: #f8fafc;
+}
+
+@media (max-width: 650px) {
+  .result-actions {
+    flex-direction: column;
+  }
+}
