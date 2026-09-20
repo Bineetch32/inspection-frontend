@@ -1,0 +1,105 @@
+<div class="history-page">
+
+  <header class="topbar">
+    <div>
+      <span class="eyebrow">INSPECTION</span>
+      <h1>Inspection History</h1>
+      <p>Saved inspection records from MySQL.</p>
+    </div>
+
+    <div class="actions">
+      <button class="secondary-btn" routerLink="/dashboard">Dashboard</button>
+      <button class="primary-btn" routerLink="/inspection/upload">+ New Inspection</button>
+    </div>
+  </header>
+
+  <main>
+
+    <section class="hero-card">
+      <div>
+        <span class="eyebrow light">MYSQL DATA</span>
+        <h2>Inspection Records</h2>
+        <p>All validated inspection records saved by the system.</p>
+      </div>
+
+      <div class="count">
+        <strong>{{ records.length }}</strong>
+        <span>Total Records</span>
+      </div>
+    </section>
+
+    <section class="panel">
+
+      <div class="panel-header">
+        <div>
+          <h3>History</h3>
+          <p>{{ filteredRecords.length }} matching record(s)</p>
+        </div>
+
+        <div class="search-box">
+          <span>⌕</span>
+          <input
+            type="text"
+            [(ngModel)]="searchText"
+            (input)="applyFilter()"
+            placeholder="Search part, vendor, model..." />
+        </div>
+      </div>
+
+      <div *ngIf="errorMessage" class="message error">
+        {{ errorMessage }}
+      </div>
+
+      <div *ngIf="loading" class="loading">
+        Loading inspection history...
+      </div>
+
+      <div *ngIf="!loading" class="table-wrap">
+        <table *ngIf="filteredRecords.length > 0">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Part No</th>
+              <th>Part Name</th>
+              <th>Vendor</th>
+              <th>Model</th>
+              <th>Checked</th>
+              <th>OK</th>
+              <th>NG</th>
+              <th>Status</th>
+              <th>Defect</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr *ngFor="let record of filteredRecords">
+              <td>{{ record.inspectionDate }}</td>
+              <td><strong>{{ record.partNo }}</strong></td>
+              <td>{{ record.partName }}</td>
+              <td>{{ record.vendorCode }}</td>
+              <td>{{ record.model || '—' }}</td>
+              <td>{{ record.quantityChecked }}</td>
+              <td class="ok">{{ record.okQuantity }}</td>
+              <td class="ng">{{ record.ngQuantity }}</td>
+              <td>
+                <span
+                  class="status"
+                  [class.fail]="record.inspectionStatus === 'NG'">
+                  {{ record.inspectionStatus }}
+                </span>
+              </td>
+              <td>{{ record.defectDescription || '—' }}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div *ngIf="filteredRecords.length === 0" class="empty">
+          No inspection records found.
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+</div>
