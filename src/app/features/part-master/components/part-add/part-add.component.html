@@ -1,1 +1,147 @@
-<p>part-add works!</p>
+<div class="form-page">
+
+  <header class="topbar">
+    <div>
+      <span class="eyebrow">MASTER DATA</span>
+      <h1>{{ editMode ? 'Edit Part Master' : 'Add Part Master' }}</h1>
+      <p>
+        {{ editMode
+          ? 'Update approved part information and validation settings.'
+          : 'Create a new approved part for inspection validation.' }}
+      </p>
+    </div>
+
+    <button class="secondary-btn" (click)="cancel()">← Part Master</button>
+  </header>
+
+  <main>
+    <section class="form-card">
+
+      <div class="form-header">
+        <div>
+          <span class="eyebrow">PART INFORMATION</span>
+          <h2>{{ editMode ? 'Update Part' : 'New Part' }}</h2>
+        </div>
+
+        <span class="active-pill" [class.inactive]="!part.active">
+          {{ part.active ? 'ACTIVE' : 'INACTIVE' }}
+        </span>
+      </div>
+
+      <div *ngIf="loading" class="loading">
+        Loading Part Master...
+      </div>
+
+      <form *ngIf="!loading" (ngSubmit)="save()" #partForm="ngForm">
+
+        <div class="section-label">Basic Details</div>
+
+        <div class="form-grid">
+          <label>
+            <span>Part No <b>*</b></span>
+            <input
+              name="partNo"
+              [(ngModel)]="part.partNo"
+              required
+              placeholder="e.g. 12345-ABC"
+            />
+          </label>
+
+          <label>
+            <span>Part Name <b>*</b></span>
+            <input
+              name="partName"
+              [(ngModel)]="part.partName"
+              required
+              placeholder="Enter part name"
+            />
+          </label>
+        </div>
+
+        <div class="section-label">Vendor Details</div>
+
+        <div class="form-grid">
+          <label>
+            <span>Vendor Code <b>*</b></span>
+            <input
+              name="vendorCode"
+              [(ngModel)]="part.vendorCode"
+              required
+              placeholder="Enter vendor code"
+            />
+          </label>
+
+          <label>
+            <span>Vendor Name <b>*</b></span>
+            <input
+              name="vendorName"
+              [(ngModel)]="part.vendorName"
+              required
+              placeholder="Enter vendor name"
+            />
+          </label>
+        </div>
+
+        <div class="section-label">Inspection Mapping</div>
+
+        <div class="form-grid">
+          <label>
+            <span>Model <b>*</b></span>
+            <input
+              name="model"
+              [(ngModel)]="part.model"
+              required
+              placeholder="e.g. YTA"
+            />
+          </label>
+
+          <label>
+            <span>Packaging <b>*</b></span>
+            <input
+              name="packaging"
+              [(ngModel)]="part.packaging"
+              required
+              placeholder="e.g. BOX / BIN"
+            />
+          </label>
+        </div>
+
+        <label class="toggle-row">
+          <span>
+            <strong>Active Part</strong>
+            <small>Only active parts are accepted during inspection validation.</small>
+          </span>
+
+          <input
+            type="checkbox"
+            name="active"
+            [(ngModel)]="part.active"
+          />
+        </label>
+
+        <div *ngIf="errorMessage" class="message error">
+          {{ errorMessage }}
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="secondary-btn" (click)="cancel()">
+            Cancel
+          </button>
+
+          <button
+            type="submit"
+            class="primary-btn"
+            [disabled]="saving || !partForm.form.valid">
+
+            {{ saving
+              ? 'Saving...'
+              : (editMode ? 'Update Part' : 'Save Part') }}
+          </button>
+        </div>
+
+      </form>
+
+    </section>
+  </main>
+
+</div>
