@@ -1,3 +1,4 @@
+import { environment } from '../../../../environments/environment';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -26,7 +27,7 @@ export interface InspectionHistoryRecord {
 })
 export class InspectionHistoryService {
 
-  private readonly apiUrl = 'http://localhost:8080/api/inspections';
+  private readonly apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) {}
 
