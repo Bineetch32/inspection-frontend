@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'REPLACE_WITH_CLOUD_BACKEND_URL/api'
+  apiUrl: 'https://inspection-backend-production-ec2d.up.railway.app/api'
 };
