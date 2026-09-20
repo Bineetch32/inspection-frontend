@@ -1,6 +1,12 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+
+export interface ReportFilters {
+  fromDate?: string;
+  toDate?: string;
+  model?: string;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -12,14 +18,50 @@ export class ReportService {
 
   constructor(private http: HttpClient) {}
 
-  getCurrentReport(): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/current`);
+  getCurrentReport(filters: ReportFilters = {}): Observable<any> {
+
+    let params = new HttpParams();
+
+    if (filters.fromDate) {
+      params = params.set('fromDate', filters.fromDate);
+    }
+
+    if (filters.toDate) {
+      params = params.set('toDate', filters.toDate);
+    }
+
+    if (filters.model) {
+      params = params.set('model', filters.model);
+    }
+
+    return this.http.get<any>(
+      `${this.apiUrl}/current`,
+      { params }
+    );
   }
 
-  generateCurrentPdf(): Observable<Blob> {
+  generateCurrentPdf(filters: ReportFilters = {}): Observable<Blob> {
+
+    let params = new HttpParams();
+
+    if (filters.fromDate) {
+      params = params.set('fromDate', filters.fromDate);
+    }
+
+    if (filters.toDate) {
+      params = params.set('toDate', filters.toDate);
+    }
+
+    if (filters.model) {
+      params = params.set('model', filters.model);
+    }
+
     return this.http.get(
       `${this.apiUrl}/pdf/current`,
-      { responseType: 'blob' }
+      {
+        params,
+        responseType: 'blob'
+      }
     );
   }
 
